@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"time"
 
-	customer "github.com/alileza/orderapp/api/customer"
+	customer "github.com/alileza/sample-app/api/customer"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"github.com/streadway/amqp"
 )
 

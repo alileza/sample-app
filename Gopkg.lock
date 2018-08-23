@@ -8,6 +8,12 @@
   revision = "0dae4fefe7c0e190f7b5a78dac28a1c82cc8d849"
 
 [[projects]]
+  name = "github.com/lib/pq"
+  packages = [".","oid"]
+  revision = "4ded0e9383f75c197b3a2aaa6d590ac52df6fd79"
+  version = "v1.0.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/streadway/amqp"
   packages = ["."]
@@ -16,6 +22,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "77aa1a419c994db7f23e77f63b29a296c0c6d56ff8bc2148f1441fa66d642e4f"
+  inputs-digest = "22fcf02b8a08a189289043b3a43d76a50fcbe2a1430f110ade0cfbbfa13acc87"
   solver-name = "gps-cdcl"
   solver-version = 1

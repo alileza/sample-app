@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	customerapi "github.com/alileza/orderapp/api/customer"
-	"github.com/alileza/orderapp/config"
-	"github.com/alileza/orderapp/pkg/order"
+	customerapi "github.com/alileza/sample-app/api/customer"
+	"github.com/alileza/sample-app/config"
+	"github.com/alileza/sample-app/pkg/order"
 	"github.com/jmoiron/sqlx"
 	"github.com/streadway/amqp"
 )
@@ -59,6 +59,7 @@ func main() {
 		}
 	})
 
+	log.Println("http server listening on :9000")
 	if err := http.ListenAndServe(":9000", mux); err != nil {
 		log.Fatal(err)
 	}
