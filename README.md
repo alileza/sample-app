@@ -9,9 +9,9 @@ here how `sample-app` diagram looks like.
 ### Requirement
 To be able to start sample-app you need to pass these environment variables:
 
-- DATABASE_DSN          : postgresql datasource name
-- QUEUE_DSN             : rabbitmq datasource name
-- CUSTOMER_APP_BASE_URL : http base url
+- `DATABASE_DSN`          : postgresql datasource name
+- `QUEUE_DSN`             : rabbitmq datasource name
+- `CUSTOMER_APP_BASE_URL` : http base url
 
 ### Default configuration
 
