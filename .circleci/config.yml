@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  tomato-test:
+    docker:
+      - image: docker/compose:1.22.0
+
+    working_directory: /go/src/github.com/alileza/sample-app
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run: docker-compose up --abort-on-container-exit --build
+
+workflows:
+  version: 2
+  tests:
+    jobs:
+      - tomato-test
