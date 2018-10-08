@@ -6,21 +6,22 @@ stop_on_failure: false
 resources:
   - name: http-client
     type: http/client
+    ready_check: true
     params:
-      base_url: http://localhost:9000
+      base_url: {{ .CLIENT_BASE_URL }}
 
   - name: customer-app
     type: http/server
     ready_check: true
     params:
-      port: 8880
+      port: {{ .CUSTOMER_APP_PORT }}
 
   - name: mq
     type: queue
     ready_check: true
     params:
       driver: rabbitmq
-      datasource: amqp://guest:guest@localhost:5672
+      datasource: {{ .QUEUE_DSN }}
       wait_duration: 200ms
 
   - name: db1
@@ -28,4 +29,4 @@ resources:
     ready_check: true
     params:
       driver: postgres
-      datasource: postgres://sample-app:sample-password@localhost:5432/sample-app?sslmode=disable
+      datasource: {{ .DATABASE_DSN }}
