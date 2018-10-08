@@ -16,7 +16,7 @@ Feature: handling http post request
 
   Scenario: Send a valid request
     Given listen message from "mq" target "orders:created"
-    Given "customer-app" with path "/customers/123" response code to 200 and response body
+    Given set "customer-app" with path "/customers/123" response code to 200 and response body
       """
         {
           "customer_id": 123,
