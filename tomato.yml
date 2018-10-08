@@ -1,0 +1,31 @@
+---
+
+randomize: true
+stop_on_failure: false
+
+resources:
+  - name: http-client
+    type: http/client
+    params:
+      base_url: http://localhost:9000
+
+  - name: customer-app
+    type: http/server
+    ready_check: true
+    params:
+      port: 8880
+
+  - name: mq
+    type: queue
+    ready_check: true
+    params:
+      driver: rabbitmq
+      datasource: amqp://guest:guest@localhost:5672
+      wait_duration: 200ms
+
+  - name: db1
+    type: database/sql
+    ready_check: true
+    params:
+      driver: postgres
+      datasource: postgres://sample-app:sample-password@localhost:5432/sample-app?sslmode=disable
