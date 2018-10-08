@@ -1,0 +1,18 @@
+version: '2'
+services:
+    postgres:
+        image: postgres:9.5
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: sample-app
+            POSTGRES_PASSWORD: sample-password
+            POSTGRES_DB: sample-app
+        volumes:
+          - ./migrations/:/docker-entrypoint-initdb.d/
+          
+    rabbit:
+        image: rabbitmq:3.6.1-management
+        ports:
+            - "15672:15672"
+            - "5672:5672"
