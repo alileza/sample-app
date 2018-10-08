@@ -63,9 +63,13 @@ func (c *Client) Create(o *Order) (*Order, error) {
 		return nil, err
 	}
 
-	err = ch.Publish("orders", "created", true, true, amqp.Publishing{
+	if err := ch.ExchangeDeclare("orders", "topic", true, false, false, false, nil); err != nil {
+		return o, err
+	}
+
+	err = ch.Publish("orders", "created", true, false, amqp.Publishing{
 		Body: body,
 	})
 
-	return o, nil
+	return o, err
 }
