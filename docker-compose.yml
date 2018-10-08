@@ -3,8 +3,10 @@ services:
     tomato:
         image: quay.io/alileza/tomato:latest
         volumes:
-          - ./tomato.yml:/config.yml
-          - ./features/:/features/
+          - src:/src
+        command:
+          - "--config.file=/src/tomato.yml"
+          - "--features.path=/src/features/"
         environment:
             CLIENT_BASE_URL: "http://sample-app:9000"
             DATABASE_DSN: "postgres://sample-app:sample-password@postgres:5432/sample-app?sslmode=disable"
@@ -23,6 +25,8 @@ services:
           sh -c '/util/waitfor postgres:5432 rabbitmq:5672 && sample-app'
         volumes:
           - util:/util
+          - src:/src
+          - sqldump:/src/migrations
 
     postgres:
         image: postgres:9.5
@@ -33,7 +37,7 @@ services:
             POSTGRES_PASSWORD: sample-password
             POSTGRES_DB: sample-app
         volumes:
-          - ./migrations/:/docker-entrypoint-initdb.d/
+          - sqldump:/docker-entrypoint-initdb.d/
 
     rabbitmq:
         image: rabbitmq:3.6.1-management
@@ -49,3 +53,5 @@ services:
 
 volumes:
   util: {}
+  src: {}
+  sqldump: {}

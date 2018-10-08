@@ -11,7 +11,7 @@ RUN go build -o /sample-app main.go
 FROM alpine
 
 COPY --from=builder /sample-app /bin/sample-app
-COPY --from=builder /go/src/github.com/alileza/sample-app/migrations /migrations
+COPY --from=builder /go/src/github.com/alileza/sample-app/ /src
 
 EXPOSE 9000
 ENTRYPOINT [ "/bin/sample-app" ]
