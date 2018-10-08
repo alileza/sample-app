@@ -1,18 +1,51 @@
 version: '2'
 services:
+    tomato:
+        image: quay.io/alileza/tomato:latest
+        volumes:
+          - ./tomato.yml:/config.yml
+          - ./features/:/features/
+        environment:
+            CLIENT_BASE_URL: "http://sample-app:9000"
+            DATABASE_DSN: "postgres://sample-app:sample-password@postgres:5432/sample-app?sslmode=disable"
+            QUEUE_DSN: "amqp://guest:guest@rabbitmq:5672"
+            CUSTOMER_APP_PORT: 8880
+
+    sample-app:
+        build: .
+        expose:
+            - "9000"
+        environment:
+            DATABASE_DSN: "postgres://sample-app:sample-password@postgres:5432/sample-app?sslmode=disable"
+            QUEUE_DSN: "amqp://guest:guest@rabbitmq:5672"
+            CUSTOMER_APP_BASE_URL: "http://tomato:8880"
+        entrypoint: >
+          sh -c '/util/waitfor postgres:5432 rabbitmq:5672 && sample-app'
+        volumes:
+          - util:/util
+
     postgres:
         image: postgres:9.5
-        ports:
-            - "5432:5432"
+        expose:
+            - "5432"
         environment:
             POSTGRES_USER: sample-app
             POSTGRES_PASSWORD: sample-password
             POSTGRES_DB: sample-app
         volumes:
           - ./migrations/:/docker-entrypoint-initdb.d/
-          
-    rabbit:
+
+    rabbitmq:
         image: rabbitmq:3.6.1-management
-        ports:
-            - "15672:15672"
-            - "5672:5672"
+        expose:
+            - "5672"
+
+
+    waitfor:
+      image: alileza/waitfor:latest
+      volumes:
+        - util:/bin/
+      entrypoint: [ "tail", "-f", "/dev/null" ]
+
+volumes:
+  util: {}
