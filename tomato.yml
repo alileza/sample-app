@@ -5,19 +5,19 @@ stop_on_failure: false
 
 resources:
   - name: http-client
-    type: http/client
+    type: httpclient
     ready_check: true
     params:
       base_url: {{ .CLIENT_BASE_URL }}
 
   - name: customer-app
-    type: http/server
+    type: wiremock
     ready_check: true
     params:
-      port: {{ .CUSTOMER_APP_PORT }}
+      base_url: {{ .CUSTOMER_APP_URL }}
 
   - name: mq
-    type: queue
+    type: rabbitmq
     ready_check: true
     params:
       driver: rabbitmq
@@ -25,7 +25,7 @@ resources:
       wait_duration: 200ms
 
   - name: db1
-    type: database/sql
+    type: postgres
     ready_check: true
     params:
       driver: postgres

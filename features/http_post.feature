@@ -36,7 +36,7 @@ Feature: handling http post request
       | customer_id | product_id |
       | 123         | 334        |
     Then message from "mq" target "orders:created" count should be 1
-    Then message from "mq" target "orders:created" should look like
+    Then message from "mq" target "orders:created" should contain
       """
         {
           "order": {

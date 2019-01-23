@@ -1,7 +1,7 @@
 version: '2'
 services:
     tomato:
-        image: quay.io/alileza/tomato:latest
+        image: quay.io/tomatool/tomato:1.0.0-rc.3
         volumes:
           - src:/src
         command:
@@ -11,7 +11,7 @@ services:
             CLIENT_BASE_URL: "http://sample-app:9000"
             DATABASE_DSN: "postgres://sample-app:sample-password@postgres:5432/sample-app?sslmode=disable"
             QUEUE_DSN: "amqp://guest:guest@rabbitmq:5672"
-            CUSTOMER_APP_PORT: 8880
+            CUSTOMER_APP_URL: "http://wiremock:8080"
 
     sample-app:
         build: .
@@ -20,7 +20,7 @@ services:
         environment:
             DATABASE_DSN: "postgres://sample-app:sample-password@postgres:5432/sample-app?sslmode=disable"
             QUEUE_DSN: "amqp://guest:guest@rabbitmq:5672"
-            CUSTOMER_APP_BASE_URL: "http://tomato:8880"
+            CUSTOMER_APP_BASE_URL: "http://wiremock:8080"
         entrypoint: >
           sh -c '/util/waitfor postgres:5432 rabbitmq:5672 && sample-app'
         volumes:
@@ -44,6 +44,10 @@ services:
         expose:
             - "5672"
 
+    wiremock:
+        image: rodolpheche/wiremock
+        expose:
+            - "8080"
 
     waitfor:
       image: alileza/waitfor:latest
