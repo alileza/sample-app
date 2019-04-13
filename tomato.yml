@@ -1,0 +1,29 @@
+---
+
+randomize: true
+stop_on_failure: false
+
+resources:
+  - name: http-client
+    type: httpclient
+    params:
+      base_url: http://localhost:9000
+
+  - name: customer-app
+    type: wiremock
+    ready_check: true
+    params:
+      base_url: http://localhost:8080
+
+  - name: mq
+    type: rabbitmq
+    ready_check: true
+    params:
+      datasource: amqp://guest:guest@localhost:5672
+      wait_duration: 200ms
+
+  - name: db1
+    type: postgres
+    ready_check: true
+    params:
+      datasource: postgres://sample-app:sample-password@localhost:5432/sample-app?sslmode=disable
