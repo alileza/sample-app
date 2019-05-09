@@ -19,7 +19,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
+	defer db.Close()
+	
 	queueConn, err := amqp.Dial(cfg.QueueDSN)
 	if err != nil {
 		panic(err)
