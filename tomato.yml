@@ -2,6 +2,8 @@
 
 randomize: true
 stop_on_failure: false
+features_path:
+  - ./features
 
 resources:
   - name: http-client
